@@ -14,14 +14,14 @@
  grid=0
  kcount=0
  
- number_of_cells=200
+ number_of_cells=1000
  vicsek_interaction=1
  curvature_interaction=1
 
  iens=1
  itime=200
  igap=1000
- lsize=20   !system size
+ lsize=46   !system size
  
  n_cell_max=10
  ngrid=lsize/2
@@ -43,8 +43,8 @@
  Dr2=(2*Dr)**0.5
  
  theta_curv=pi/2
- curvature_strength=0.75   !Vary from 0 to 1
- vicsek_strength=0.25     !Vary from 0 to 1
+ curvature_strength=0.1   !Vary from 0 to 1
+ vicsek_strength=0.1      !Vary from 0 to 1
 
 
  do i=1,number_of_cells

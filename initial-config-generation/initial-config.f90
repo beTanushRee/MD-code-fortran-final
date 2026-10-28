@@ -14,12 +14,12 @@
  grid=0
  kcount=0
  
- number_of_cells=200
+ number_of_cells=1000
  
  random_position=1
  random_direction=1
 
- lsize=20   !system size
+ lsize=46   !system size
  
  s=1.0 !sigma
  range=1.414213*s
