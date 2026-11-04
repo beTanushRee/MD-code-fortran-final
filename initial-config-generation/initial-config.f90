@@ -104,7 +104,7 @@
  
 !Record initial conditions
  do i=1,number_of_cells
- write(ifile,*)x_particle(i),y_particle(i),ex(i),ey(i)
+ write(ifile,*)x_particle(i),y_particle(i),ex(i),ey(i),0.0d0, 0.0d0, 0.0d0
  end do
  close(ifile) 
 !END

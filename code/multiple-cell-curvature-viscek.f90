@@ -3,7 +3,7 @@
  implicit real*8(a-h,o-z)
  implicit integer*4(i-n)
  integer::vicsek_interaction,curvature_interaction
- double precision,dimension(1:10000)::x_particle,y_particle,x_av,y_av,ex,ey
+ double precision,dimension(1:10000)::x_particle,y_particle,x_av,y_av,ex,ey,vx,vy,v_mag
  integer,dimension(0:501,0:501,0:1000)::grid
  
  ifile=1000
@@ -20,7 +20,7 @@
 
  iens=1
  itime=200
- igap=1000
+ igap=1
  lsize=46   !system size
  
  n_cell_max=10
@@ -43,12 +43,15 @@
  Dr2=(2*Dr)**0.5
  
  theta_curv=pi/2
- curvature_strength=0.1   !Vary from 0 to 1
- vicsek_strength=0.1      !Vary from 0 to 1
+ curvature_strength=0.75   !Vary from 0 to 1
+ vicsek_strength=0.5     !Vary from 0 to 1
 
 
  do i=1,number_of_cells
  read(ifile,*)x_particle(i),y_particle(i),ex(i),ey(i)
+ vx(i) = 0.0d0
+ vy(i) = 0.0d0
+ v_mag(i) = 0.0d0
  end do
  close (ifile)
  
@@ -219,6 +222,10 @@
 
  dx=dx1 + dx2 + dx3
  dy=dy1 + dy2 + dy3
+
+ vx(k0) = (dx / dt) - v0
+ vy(k0) = (dy / dt) - v0
+ v_mag(k0) = sqrt(vx(k0)**2 + vy(k0)**2)
  
  x_particle(k0)=x_particle(k0)+dx
  y_particle(k0)=y_particle(k0)+dy 
@@ -394,7 +401,7 @@
  
  ifile=ifile+1
  do i=1,number_of_cells
- write(ifile,*)x_particle(i),y_particle(i),ex(i),ey(i)
+ write(ifile,*)x_particle(i),y_particle(i),ex(i),ey(i),vx(i),vy(i),v_mag(i)
  end do
  close(ifile)
  

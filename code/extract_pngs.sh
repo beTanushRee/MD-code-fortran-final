@@ -14,8 +14,8 @@ for data in "$first_frame" "$last_frame"; do
     gnuplot <<-EOF
         set term pngcairo enhanced size 1024,512
         set output "$png"
-        set xrange [0:20]
-        set yrange [0:20]
+        set xrange [0:50]
+        set yrange [0:50]
         set title "Frame: $data"
         
         plot "$data" u 1:2:(\$3*0.5):(\$4*0.5) w vectors head filled lw 1 lc rgb "red" title "", \
