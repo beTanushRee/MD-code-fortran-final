@@ -15,12 +15,12 @@
  kcount=0
  
  number_of_cells=1000
- vicsek_interaction=1
- curvature_interaction=1
+ vicsek_interaction=0.5
+ curvature_interaction=0.1
 
  iens=1
  itime=200
- igap=1
+ igap=1000
  lsize=46   !system size
  
  n_cell_max=10
@@ -35,7 +35,7 @@
  e=1.0 !epsilon
  
  D=0.0001 !translational diffusivity
- Dr=0.0001 !rotational diffusivity
+ Dr=0.05 !rotational diffusivity
  gamma=1.0 !frictional coefficient
  dt=0.001
  dt2=dt**0.5
@@ -157,8 +157,8 @@
  ftx=0.0d0
  fty=0.0d0
  
- avg_ex=0.0d0
- avg_ey=0.0d0
+ avg_ex=ex(k0)
+ avg_ey=ey(k0)
  
  index_x_old=floor(x_particle(k0))/igrid_size + 1
  index_y_old=floor(y_particle(k0))/igrid_size + 1  
@@ -196,8 +196,8 @@
  ftx=ftx+fx
  fty=fty+fy
 
- avg_ex=avg_ex+ex(k0)
- avg_ey=avg_ey+ey(k0) 
+ avg_ex=avg_ex+ex(i_particle)
+ avg_ey=avg_ey+ey(i_particle) 
 
  end if
  
@@ -383,8 +383,8 @@
 
 !!!!Updating orientation for curvature and/or vicsek interaction !!!!!
 
- ex(k0)=ex(k0) - w*ey(k0) - w_vicsek*ey(k0) - (Dr2*gauss3*ey(k0))*dt2
- ey(k0)=ey(k0) + w*ex(k0) + w_vicsek*ex(k0) + (Dr2*gauss3*ex(k0))*dt2
+ ex(k0)=ex(k0) - (w*ey(k0)*dt) - (w_vicsek*ey(k0)*dt) - (Dr2*gauss3*ey(k0))*dt2
+ ey(k0)=ey(k0) + (w*ex(k0)*dt) + (w_vicsek*ex(k0)*dt) + (Dr2*gauss3*ex(k0))*dt2
  enorm=(ex(k0)**2+ey(k0)**2)**0.5
  ex(k0)=ex(k0)/enorm
  ey(k0)=ey(k0)/enorm
