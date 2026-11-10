@@ -43,7 +43,7 @@
  Dr2=(2*Dr)**0.5
  
  theta_curv=pi/2
- curvature_strength=0.75   !Vary from 0 to 1
+ curvature_strength=1    !Vary from 0 to 1
  vicsek_strength=0.5     !Vary from 0 to 1
 
 
