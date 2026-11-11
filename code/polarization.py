@@ -23,7 +23,6 @@ with open(csv_filename, mode='w', newline='') as csv_file:
     writer = csv.writer(csv_file)
     writer.writerow(['Frame', 'Box_X_Center', 'Box_Y_Center', 'Particle_Count', 'Local_Polarization', 'Local_Theta'])
 
-    print(f"Processing and generatingvisualizations {start_file} to {end_file}...")
     
     for fnum in range(start_file, end_file + 1):
         filename = f'fort.{fnum}'
@@ -136,7 +135,6 @@ plt.savefig('analysis_avg_box_polarization.png', dpi=300)
 plt.close(fig)
 
 # gifs
-print("Calculations complete. Stitching GIFs...")
 
 try:
     subprocess.run([
@@ -153,6 +151,6 @@ try:
         "-loop", "0", "polarization_flow_pure.gif"
     ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
     
-    print("Success!")
-except Exception as e:
-    print("Error generating GIFs:", e)
+    print("Done!")
+except Exception:
+    raise
