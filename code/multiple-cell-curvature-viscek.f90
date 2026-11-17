@@ -15,8 +15,8 @@
  kcount=0
  
  number_of_cells=1000
- vicsek_interaction=0.5
- curvature_interaction=0.1
+ vicsek_interaction=1
+ curvature_interaction=1
 
  iens=1
  itime=200
@@ -43,9 +43,8 @@
  Dr2=(2*Dr)**0.5
  
  theta_curv=pi/2
- curvature_strength=1   !Vary from 0 to 1
- vicsek_strength=1      !Vary from 0 to 1
-
+ curvature_strength=0.5    !Vary from 0 to 1
+ vicsek_strength=1     !Vary from 0 to 1
 
  do i=1,number_of_cells
  read(ifile,*)x_particle(i),y_particle(i),ex(i),ey(i)
@@ -351,7 +350,9 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 !!!!!!!!!!!! Initiate curvature interaction !!!!!!!!!!!!!!!!!!!!!!!!!
- 
+
+w=0.0d0
+
  if (curvature_interaction==1) then
  
  theta_i=atan2(ey(k0),ex(k0))

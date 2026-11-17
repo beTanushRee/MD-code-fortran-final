@@ -1,12 +1,21 @@
+
 #!/bin/bash
+
 export LANG=C LC_ALL=C
 
 L=46
 
-frames=($(find . -maxdepth 1 -type f -regextype posix-extended \
-    -regex './fort\.[0-9]+' -printf '%f\n' | sort -V))
+frames=$(find . -maxdepth 1 -type f -name 'fort.[0-9]*' |
+    awk -F/ '$NF ~ /^fort\.[0-9]+$/ {print $NF}' |
+    sort -t. -k2,2n)
 
-for data in "${frames[0]}" "${frames[-1]}"; do
+# Extract first and last frames
+first=$(printf '%s\n' "$frames" | sed -n '1p')
+last=$(printf '%s\n' "$frames" | tail -n 1)
+
+for data in "$first" "$last"; do
+
+    [ -n "$data" ] || continue
     [ -s "$data" ] || continue
 
     awk -v L="$L" 'NF>=7 {
@@ -28,6 +37,7 @@ for data in "${frames[0]}" "${frames[-1]}"; do
 
         unset output
 EOF
+
 done
 
 rm -f temp.dat
