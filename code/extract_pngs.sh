@@ -1,25 +1,33 @@
 #!/bin/bash
 export LANG=C LC_ALL=C
 
-# Identify the first and last fort.* files numerically
-first_frame=$(ls -v fort.* | head -n 1)
-last_frame=$(ls -v fort.* | tail -n 1)
+L=46
 
-for data in "$first_frame" "$last_frame"; do
-    # Skip if file is not readable
-    [ -r "$data" ] || continue
-    
-    png="${data}.png"
-    
+frames=($(find . -maxdepth 1 -type f -regextype posix-extended \
+    -regex './fort\.[0-9]+' -printf '%f\n' | sort -V))
+
+for data in "${frames[0]}" "${frames[-1]}"; do
+    [ -s "$data" ] || continue
+
+    awk -v L="$L" 'NF>=7 {
+        for(i=-1;i<=1;i++) for(j=-1;j<=1;j++)
+            print $1+i*L, $2+j*L, $3, $4
+    }' "$data" > temp.dat
+
     gnuplot <<-EOF
-        set term pngcairo enhanced size 1024,512
-        set output "$png"
-        set xrange [0:50]
-        set yrange [0:50]
+        set term pngcairo size 1600,800 enhanced
+        set output "$data.png"
+        set xrange [0:$L]
+        set yrange [0:$L]
         set title "Frame: $data"
-        
-        plot "$data" u 1:2:(\$3*0.5):(\$4*0.5) w vectors head filled lw 1 lc rgb "red" title "", \
-             "$data" u 1:2 w p pt 7 lc rgb "blue" title ""
+
+        plot 'temp.dat' u 1:2:(\$3*0.5):(\$4*0.5) \
+             w vectors head filled lw 1 lc rgb "red" notitle, \
+             'temp.dat' u 1:2 \
+             w p pt 7 ps 1.0 lc rgb "blue" notitle
+
+        unset output
 EOF
-    echo "Generated $png"
 done
+
+rm -f temp.dat

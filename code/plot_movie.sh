@@ -1,4 +1,3 @@
-#!/bin/bash
 export LANG=C LC_ALL=C
 
 (
